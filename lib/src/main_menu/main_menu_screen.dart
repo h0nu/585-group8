@@ -31,7 +31,7 @@ class MainMenuScreen extends StatelessWidget {
           child: Transform.rotate(
             angle: -0.1,
             child: const Text(
-              'Flutter Game Template!',
+              'Little Alchemy',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Permanent Marker',
@@ -41,15 +41,15 @@ class MainMenuScreen extends StatelessWidget {
             ),
           ),
         ),
-        rectangularMenuArea: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+        rectangularMenuArea: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            FilledButton(
+            OutlinedButton(
               onPressed: () {
                 audioController.playSfx(SfxType.buttonTap);
                 GoRouter.of(context).go('/play');
               },
-              child: const Text('Play'),
+              child: const Text('Home'),
             ),
             _gap,
             if (gamesServicesController != null) ...[
@@ -70,25 +70,10 @@ class MainMenuScreen extends StatelessWidget {
               ),
               _gap,
             ],
-            FilledButton(
+            OutlinedButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
             ),
-            _gap,
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: ValueListenableBuilder<bool>(
-                valueListenable: settingsController.muted,
-                builder: (context, muted, child) {
-                  return IconButton(
-                    onPressed: () => settingsController.toggleMuted(),
-                    icon: Icon(muted ? Icons.volume_off : Icons.volume_up),
-                  );
-                },
-              ),
-            ),
-            _gap,
-            const Text('Music by Mr Smith'),
             _gap,
           ],
         ),

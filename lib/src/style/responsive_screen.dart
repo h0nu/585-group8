@@ -42,7 +42,7 @@ class ResponsiveScreen extends StatelessWidget {
         if (size.height >= size.width) {
           // "Portrait" / "mobile" mode.
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SafeArea(
                 bottom: false,
