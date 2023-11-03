@@ -14,7 +14,6 @@ void main() {
       settingsPersistence: MemoryOnlySettingsPersistence(),
       playerProgressPersistence: MemoryOnlyPlayerProgressPersistence(),
       gamesServicesController: null,
-      inAppPurchaseController: null,
     ));
 
     // Verify that the 'Play' button is shown.

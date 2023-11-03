@@ -21,7 +21,6 @@ import 'src/app_lifecycle/app_lifecycle.dart';
 import 'src/audio/audio_controller.dart';
 import 'src/games_services/games_services.dart';
 import 'src/games_services/score.dart';
-import 'src/in_app_purchase/in_app_purchase.dart';
 import 'src/level_selection/level_selection_screen.dart';
 import 'src/level_selection/levels.dart';
 import 'src/main_menu/main_menu_screen.dart';
@@ -93,21 +92,10 @@ Future<void> main() async {
   //     ..initialize();
   // }
 
-  InAppPurchaseController? inAppPurchaseController;
-  // if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
-  //   inAppPurchaseController = InAppPurchaseController(InAppPurchase.instance)
-  //     // Subscribing to [InAppPurchase.instance.purchaseStream] as soon
-  //     // as possible in order not to miss any updates.
-  //     ..subscribe();
-  //   // Ask the store what the player has bought already.
-  //   inAppPurchaseController.restorePurchases();
-  // }
-
   runApp(
     MyApp(
       settingsPersistence: LocalStorageSettingsPersistence(),
       playerProgressPersistence: LocalStoragePlayerProgressPersistence(),
-      inAppPurchaseController: inAppPurchaseController,
       gamesServicesController: gamesServicesController,
     ),
   );
@@ -192,13 +180,10 @@ class MyApp extends StatelessWidget {
 
   final GamesServicesController? gamesServicesController;
 
-  final InAppPurchaseController? inAppPurchaseController;
-
 
   const MyApp({
     required this.playerProgressPersistence,
     required this.settingsPersistence,
-    required this.inAppPurchaseController,
     required this.gamesServicesController,
     super.key,
   });
@@ -217,8 +202,6 @@ class MyApp extends StatelessWidget {
           ),
           Provider<GamesServicesController?>.value(
               value: gamesServicesController),
-          ChangeNotifierProvider<InAppPurchaseController?>.value(
-              value: inAppPurchaseController),
           Provider<SettingsController>(
             lazy: false,
             create: (context) => SettingsController(
