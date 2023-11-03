@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../audio/audio_controller.dart';
-import '../audio/sounds.dart';
 import '../games_services/games_services.dart';
 import '../settings/settings.dart';
 import '../style/palette.dart';
@@ -21,7 +19,6 @@ class MainMenuScreen extends StatelessWidget {
     final palette = context.watch<Palette>();
     final gamesServicesController = context.watch<GamesServicesController?>();
     final settingsController = context.watch<SettingsController>();
-    final audioController = context.watch<AudioController>();
 
     return Scaffold(
       backgroundColor: palette.backgroundMain,
@@ -46,7 +43,6 @@ class MainMenuScreen extends StatelessWidget {
           children: [
             OutlinedButton(
               onPressed: () {
-                audioController.playSfx(SfxType.buttonTap);
                 GoRouter.of(context).go('/play');
               },
               child: const Text('Home'),

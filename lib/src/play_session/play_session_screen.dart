@@ -9,8 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
 
-import '../audio/audio_controller.dart';
-import '../audio/sounds.dart';
 import '../game_internals/level_state.dart';
 import '../games_services/games_services.dart';
 import '../games_services/score.dart';
@@ -143,9 +141,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     setState(() {
       _duringCelebration = true;
     });
-
-    final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.congrats);
 
     final gamesServicesController = context.read<GamesServicesController?>();
     if (gamesServicesController != null) {
