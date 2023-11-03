@@ -38,8 +38,8 @@ class MainMenuScreen extends StatelessWidget {
             ),
           ),
         ),
-        rectangularMenuArea: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        rectangularMenuArea: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             OutlinedButton(
               onPressed: () {
