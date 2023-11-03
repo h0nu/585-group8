@@ -72,9 +72,20 @@ class MainMenuScreen extends StatelessWidget {
             ],
             OutlinedButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
-              child: const Text('Settings'),
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+                ),
+              child: const Text('Hints'),
             ),
             _gap,
+            OutlinedButton(
+              onPressed: () => GoRouter.of(context).push('/settings'),
+              child: const Text('Encyclopedia'),
+            ),
+            OutlinedButton(
+              onPressed: () => GoRouter.of(context).push('/settings'),
+              child: const Text('Settings'),
+            ),
           ],
         ),
       ),
