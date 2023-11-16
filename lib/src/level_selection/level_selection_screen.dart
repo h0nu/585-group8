@@ -55,11 +55,32 @@ class LevelSelectionScreen extends StatelessWidget {
             ),
           ],
         ),
-        rectangularMenuArea: FilledButton(
-          onPressed: () {
-            GoRouter.of(context).go('/');
-          },
-          child: const Text('Back'),
+        rectangularMenuArea: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:[
+
+            TextButton(
+              onPressed: () {
+                GoRouter.of(context).go('/play');
+              },
+              child: const Text('Home'),
+            ),
+
+            TextButton(
+              onPressed: () => GoRouter.of(context).push('/settings'),
+              child: const Text('Hints'),
+            ),
+
+            TextButton(
+              onPressed: () => GoRouter.of(context).push('/settings'),
+              child: const Text('Encyclopedia'),
+            ),
+
+            TextButton(
+              onPressed: () => GoRouter.of(context).push('/settings'),
+              child: const Text('Settings'),
+            ),
+            ],
         ),
       ),
     );
