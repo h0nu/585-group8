@@ -38,47 +38,18 @@ class MainMenuScreen extends StatelessWidget {
             ),
           ),
         ),
-        rectangularMenuArea: Row(
+        rectangularMenuArea: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            OutlinedButton(
+            ElevatedButton(
               onPressed: () {
                 GoRouter.of(context).go('/play');
               },
-              child: const Text('Home'),
+              child: const Text('Play'),
             ),
             _gap,
-            if (gamesServicesController != null) ...[
-              _hideUntilReady(
-                ready: gamesServicesController.signedIn,
-                child: FilledButton(
-                  onPressed: () => gamesServicesController.showAchievements(),
-                  child: const Text('Achievements'),
-                ),
-              ),
-              _gap,
-              _hideUntilReady(
-                ready: gamesServicesController.signedIn,
-                child: FilledButton(
-                  onPressed: () => gamesServicesController.showLeaderboard(),
-                  child: const Text('Leaderboard'),
-                ),
-              ),
-              _gap,
-            ],
-            OutlinedButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
-                ),
-              child: const Text('Hints'),
-            ),
-            _gap,
-            OutlinedButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
-              child: const Text('Encyclopedia'),
-            ),
-            OutlinedButton(
+
+            FilledButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
             ),
