@@ -27,28 +27,30 @@ class HintsScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hint: Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Hint: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Hint: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      // Add more hints here
-                    ],
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hint 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        SizedBox(height: 16), // Add a break/space here
+                        Text(
+                          'Hint 2:: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        SizedBox(height: 16), // Add a break/space here
+                        Text(
+                          'Hint 3: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        // Add more "Lorem Ipsum" content as needed
+                      ],
+                    ),
                   ),
                 ),
               ),
