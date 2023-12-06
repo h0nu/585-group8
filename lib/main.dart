@@ -35,6 +35,8 @@ import 'src/style/my_transition.dart';
 import 'src/style/palette.dart';
 import 'src/style/snack_bar.dart';
 import 'src/win_game/win_game_screen.dart';
+import 'src/level_selection/hints.dart';
+import 'src/level_selection/encyclopedia.dart';
 
 Future<void> main() async {
   // Subscribe to log messages.
@@ -168,6 +170,16 @@ class MyApp extends StatelessWidget {
               path: 'settings',
               builder: (context, state) =>
                   const SettingsScreen(key: Key('settings')),
+            ),
+            GoRoute(
+              path: 'encyclopedia',
+              builder: (context, state) =>
+                  const EncyclopediaScreen(key: Key('encyclopedia')),
+            ),
+            GoRoute(
+              path: 'hints',
+              builder: (context, state) =>
+                  const HintsScreen(key: Key('hints')),
             ),
           ]),
     ],

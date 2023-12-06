@@ -67,12 +67,14 @@ class LevelSelectionScreen extends StatelessWidget {
             ),
 
             TextButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
+              onPressed: () {
+                GoRouter.of(context).push('/hints');
+              },
               child: const Text('Hints'),
             ),
 
             TextButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
+              onPressed: () => GoRouter.of(context).push('/encyclopedia'),
               child: const Text('Encyclopedia'),
             ),
 
