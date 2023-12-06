@@ -1,8 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-// Uncomment the following lines when enabling Firebase Crashlytics
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -35,8 +30,7 @@ import 'src/style/my_transition.dart';
 import 'src/style/palette.dart';
 import 'src/style/snack_bar.dart';
 import 'src/win_game/win_game_screen.dart';
-import 'src/level_selection/hints.dart';
-import 'src/level_selection/encyclopedia.dart';
+import 'src/play_session/Alchemy_play_session.dart';
 
 Future<void> main() async {
   // Subscribe to log messages.
@@ -62,11 +56,11 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-  
+
       FlutterError.onError = (errorDetails) {
         FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       };
-  
+
       // Pass all uncaught asynchronous errors
       // that aren't handled by the Flutter framework to Crashlytics.
       PlatformDispatcher.instance.onError = (error, stack) {
@@ -108,96 +102,34 @@ class MyApp extends StatelessWidget {
   static final _router = GoRouter(
     routes: [
       GoRoute(
-          path: '/',
-          builder: (context, state) =>
-              const MainMenuScreen(key: Key('main menu')),
-          routes: [
-            GoRoute(
-                path: 'play',
-                pageBuilder: (context, state) => buildMyTransition<void>(
-                      key: ValueKey('play'),
-                      child: const LevelSelectionScreen(
-                        key: Key('level selection'),
-                      ),
-                      color: context.watch<Palette>().backgroundLevelSelection,
-                    ),
-                routes: [
-                  GoRoute(
-                    path: 'session/:level',
-                    pageBuilder: (context, state) {
-                      final levelNumber =
-                          int.parse(state.pathParameters['level']!);
-                      final level = gameLevels
-                          .singleWhere((e) => e.number == levelNumber);
-                      return buildMyTransition<void>(
-                        key: ValueKey('level'),
-                        child: PlaySessionScreen(
-                          level,
-                          key: const Key('play session'),
-                        ),
-                        color: context.watch<Palette>().backgroundPlaySession,
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'won',
-                    redirect: (context, state) {
-                      if (state.extra == null) {
-                        // Trying to navigate to a win screen without any data.
-                        // Possibly by using the browser's back button.
-                        return '/';
-                      }
-
-                      // Otherwise, do not redirect.
-                      return null;
-                    },
-                    pageBuilder: (context, state) {
-                      final map = state.extra! as Map<String, dynamic>;
-                      final score = map['score'] as Score;
-
-                      return buildMyTransition<void>(
-                        key: ValueKey('won'),
-                        child: WinGameScreen(
-                          score: score,
-                          key: const Key('win game'),
-                        ),
-                        color: context.watch<Palette>().backgroundPlaySession,
-                      );
-                    },
-                  )
-                ]),
-            GoRoute(
-              path: 'settings',
-              builder: (context, state) =>
-                  const SettingsScreen(key: Key('settings')),
-            ),
-            GoRoute(
-              path: 'encyclopedia',
-              builder: (context, state) =>
-                  const EncyclopediaScreen(key: Key('encyclopedia')),
-            ),
-            GoRoute(
-              path: 'hints',
-              builder: (context, state) =>
-                  const HintsScreen(key: Key('hints')),
-            ),
-          ]),
+        path: '/',
+        builder: (context, state) =>
+            const MainMenuScreen(key: Key('main menu')),
+      ),
+      GoRoute(
+        path: '/settings', // Ensure the path starts with "/"
+        builder: (context, state) => const SettingsScreen(key: Key('settings')),
+      ),
+      GoRoute(
+        path: '/play', // Ensure the path starts with "/"
+        builder: (context, state) => AlchemyGame(),
+      ),
     ],
   );
 
   final PlayerProgressPersistence playerProgressPersistence;
-
   final SettingsPersistence settingsPersistence;
-
   final GamesServicesController? gamesServicesController;
 
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-  const MyApp({
+  MyApp({
     required this.playerProgressPersistence,
     required this.settingsPersistence,
     required this.gamesServicesController,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -212,15 +144,16 @@ class MyApp extends StatelessWidget {
             },
           ),
           Provider<GamesServicesController?>.value(
-              value: gamesServicesController),
-          Provider<SettingsController>(
-            lazy: false,
-            create: (context) => SettingsController(
-              persistence: settingsPersistence,
-            )..loadStateFromPersistence(),
+            value: gamesServicesController,
           ),
           Provider(
             create: (context) => Palette(),
+          ),
+          // ChangeNotifierProvider for SettingsController with explicit type argument
+          ChangeNotifierProvider<SettingsController>(
+            create: (context) => SettingsController(
+              persistence: settingsPersistence,
+            )..loadStateFromPersistence(),
           ),
         ],
         child: Builder(builder: (context) {
