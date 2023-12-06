@@ -1,88 +1,84 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../player_progress/player_progress.dart';
 import '../style/palette.dart';
 import '../style/responsive_screen.dart';
-import 'levels.dart';
 
-class LevelSelectionScreen extends StatelessWidget {
-  const LevelSelectionScreen({super.key});
+class HintsScreen extends StatelessWidget {
+  const HintsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final playerProgress = context.watch<PlayerProgress>();
 
     return Scaffold(
       backgroundColor: palette.backgroundLevelSelection,
       body: ResponsiveScreen(
         squarishMainArea: Column(
-          children: [
-            const Padding(
+          children: const [
+            Padding(
               padding: EdgeInsets.all(16),
               child: Center(
                 child: Text(
-                  'Select level',
-                  style:
-                      TextStyle(fontFamily: 'Permanent Marker', fontSize: 30),
+                  'Hints',
+                  style: TextStyle(fontFamily: 'Permanent Marker', fontSize: 30),
                 ),
               ),
             ),
-            const SizedBox(height: 50),
             Expanded(
-              child: ListView(
-                children: [
-                  for (final level in gameLevels)
-                    ListTile(
-                      enabled: playerProgress.highestLevelReached >=
-                          level.number - 1,
-                      onTap: () {
-
-                        GoRouter.of(context)
-                            .go('/play/session/${level.number}');
-                      },
-                      leading: Text(level.number.toString()),
-                      title: Text('Level #${level.number}'),
-                    )
-                ],
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hint: Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Hint: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Hint: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      // Add more hints here
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
         ),
         rectangularMenuArea: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-
+          children: [
             TextButton(
               onPressed: () {
                 GoRouter.of(context).go('/play');
               },
               child: const Text('Home'),
             ),
-
             TextButton(
               onPressed: () {
                 GoRouter.of(context).push('/hints');
               },
               child: const Text('Hints'),
             ),
-
             TextButton(
               onPressed: () => GoRouter.of(context).push('/encyclopedia'),
               child: const Text('Encyclopedia'),
             ),
-
             TextButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
             ),
-            ],
+          ],
         ),
       ),
     );
