@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../audio/audio_controller.dart';
+import '../audio/sounds.dart';
 
 import '../style/palette.dart';
 
@@ -10,6 +12,7 @@ class EncyclopediaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+    final audioController = context.watch<AudioController>();
 
     return Scaffold(
       backgroundColor: palette.backgroundEncyclopedia,
@@ -66,22 +69,30 @@ class EncyclopediaScreen extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
                         GoRouter.of(context).go('/play');
                       },
                       icon: Icon(Icons.home),
                     ),
                     IconButton(
                       onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
                         GoRouter.of(context).push('/hints');
                       },
                       icon: Icon(Icons.lightbulb),
                     ),
                     IconButton(
-                      onPressed: () => GoRouter.of(context).push('/encyclopedia'),
+                      onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
+                        GoRouter.of(context).push('/encyclopedia');
+                      },
                       icon: Icon(Icons.menu_book),
                     ),
                     IconButton(
-                      onPressed: () => GoRouter.of(context).push('/settings'),
+                      onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
+                        GoRouter.of(context).push('/settings');
+                      },
                       icon: Icon(Icons.settings),
                     ),
                   ],
