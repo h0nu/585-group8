@@ -1,7 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -9,10 +5,9 @@ import 'package:provider/provider.dart';
 import '../player_progress/player_progress.dart';
 import '../style/palette.dart';
 import '../style/responsive_screen.dart';
-import 'levels.dart';
 
 class LevelSelectionScreen extends StatelessWidget {
-  const LevelSelectionScreen({super.key});
+  const LevelSelectionScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +33,17 @@ class LevelSelectionScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  for (final level in gameLevels)
-                    ListTile(
-                      enabled: playerProgress.highestLevelReached >=
-                          level.number - 1,
-                      onTap: () {
-
-                        GoRouter.of(context)
-                            .go('/play/session/${level.number}');
-                      },
-                      leading: Text(level.number.toString()),
-                      title: Text('Level #${level.number}'),
-                    )
+                  ListTile(
+                    enabled: playerProgress.highestLevelReached >=
+                        0, // Adjust the level condition
+                    onTap: () {
+                      // Navigate to Little Alchemy
+                      GoRouter.of(context).push('/play/session/alchemy');
+                    },
+                    leading: Text('1'), // Adjust the level number
+                    title: Text('Little Alchemy'), // Adjust the level title
+                  ),
+                  // You can add more levels or modify as needed
                 ],
               ),
             ),
@@ -57,32 +51,26 @@ class LevelSelectionScreen extends StatelessWidget {
         ),
         rectangularMenuArea: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-
+          children: [
             TextButton(
               onPressed: () {
                 GoRouter.of(context).go('/play');
               },
               child: const Text('Home'),
             ),
-
             TextButton(
-              onPressed: () {
-                GoRouter.of(context).push('/hints');
-              },
+              onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Hints'),
             ),
-
             TextButton(
-              onPressed: () => GoRouter.of(context).push('/encyclopedia'),
+              onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Encyclopedia'),
             ),
-
             TextButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
             ),
-            ],
+          ],
         ),
       ),
     );

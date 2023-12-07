@@ -8,7 +8,7 @@ import 'persistence/settings_persistence.dart';
 
 /// An class that holds settings like [playerName] or [musicOn],
 /// and saves them to an injected persistence store.
-class SettingsController {
+class SettingsController extends ChangeNotifier {
   final SettingsPersistence _persistence;
 
   /// Whether or not the sound is on at all. This overrides both music
@@ -32,5 +32,4 @@ class SettingsController {
     playerName.value = name;
     _persistence.savePlayerName(playerName.value);
   }
-
 }
