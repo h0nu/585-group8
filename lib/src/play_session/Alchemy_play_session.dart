@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AlchemyGame extends StatefulWidget {
+  const AlchemyGame({super.key});
+
   @override
   _AlchemyGameState createState() => _AlchemyGameState();
 }
@@ -33,33 +35,62 @@ class _AlchemyGameState extends State<AlchemyGame> {
       }
       // Clear the combination sequence
       combinationSequence.clear();
+      notifyListeners(); // Notify listeners when the state changes
     }
   }
-
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Little Alchemy Game"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              GoRouter.of(context).pop();
-            } else {
-              // Handle the case where there's nothing to pop
-              // For example, you might want to navigate to the main menu
-              GoRouter.of(context).go('/');
-            }
-          },
+      appBar: null, // Remove the AppBar
+      body: SafeArea(
+        child: ChangeNotifierProvider(
+          create: (context) => AlchemyGameState(inventory, combinationSequence),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 4,
+                child: _AlchemyGameContent(),
+              ),
+              Container(
+                color: Color.fromRGBO(255,232,215,1), // Color from figma
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjusted to space around icons
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          GoRouter.of(context).go('/play');
+                        },
+                        icon: Icon(Icons.home),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          GoRouter.of(context).push('/hints');
+                        },
+                        icon: Icon(Icons.lightbulb),
+                      ),
+                      IconButton(
+                        onPressed: () => GoRouter.of(context).push('/encyclopedia'),
+                        icon: Icon(Icons.book),
+                      ),
+                      IconButton(
+                        onPressed: () => GoRouter.of(context).push('/settings'),
+                        icon: Icon(Icons.settings),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: ChangeNotifierProvider(
-        create: (context) => AlchemyGameState(inventory, combinationSequence),
-        child: _AlchemyGameContent(),
       ),
     );
   }
+
+  
+  void notifyListeners() {}
 }
 
 class _AlchemyGameContent extends StatelessWidget {
@@ -74,7 +105,7 @@ class _AlchemyGameContent extends StatelessWidget {
           child: DragTarget<String>(
             builder: (context, candidateData, rejectedData) {
               return Container(
-                color: Colors.blue,
+                color: Colors.white,
               );
             },
             onAccept: (element) {
