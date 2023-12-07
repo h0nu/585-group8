@@ -72,7 +72,7 @@ class _AlchemyGameState extends State<AlchemyGame> {
                       ),
                       IconButton(
                         onPressed: () => GoRouter.of(context).push('/encyclopedia'),
-                        icon: Icon(Icons.book),
+                        icon: Icon(Icons.menu_book),
                       ),
                       IconButton(
                         onPressed: () => GoRouter.of(context).push('/settings'),
