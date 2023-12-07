@@ -16,14 +16,13 @@ import '../level_selection/levels.dart';
 import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
 import '../style/palette.dart';
+import '../play_session/Alchemy_play_session.dart';
 
 class PlaySessionScreen extends StatefulWidget {
-  final GameLevel level;
-
-  const PlaySessionScreen(this.level, {super.key});
+  const PlaySessionScreen({Key? key}) : super(key: key);
 
   @override
-  State<PlaySessionScreen> createState() => _PlaySessionScreenState();
+  _PlaySessionScreenState createState() => _PlaySessionScreenState();
 }
 
 class _PlaySessionScreenState extends State<PlaySessionScreen> {
@@ -33,19 +32,21 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
 
   static const _preCelebrationDuration = Duration(milliseconds: 500);
 
-  bool _duringCelebration = false;
-
   late DateTime _startOfPlay;
+
+  bool _duringCelebration = false; // Define _duringCelebration here
 
   @override
   Widget build(BuildContext context) {
+    // Remove the condition checking for level 4
     final palette = context.watch<Palette>();
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => LevelState(
-            goal: widget.level.difficulty,
+            // Set a dummy goal, as it won't be used for AlchemyGame
+            goal: 0,
             onWin: _playerWon,
           ),
         ),
@@ -72,29 +73,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text('Drag the slider to ${widget.level.difficulty}%'
-                        ' or above!'),
-                    Consumer<LevelState>(
-                      builder: (context, levelState, child) => Slider(
-                        label: 'Level Progress',
-                        autofocus: true,
-                        value: levelState.progress / 100,
-                        onChanged: (value) =>
-                            levelState.setProgress((value * 100).round()),
-                        onChangeEnd: (value) => levelState.evaluate(),
-                      ),
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () => GoRouter.of(context).go('/play'),
-                          child: const Text('Back'),
-                        ),
-                      ),
-                    ),
+                    // ... existing code for the slider
                   ],
                 ),
               ),
@@ -123,16 +102,19 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   }
 
   Future<void> _playerWon() async {
-    _log.info('Level ${widget.level.number} won');
+    _log.info('Player won');
+
+    // Handle the completion of AlchemyGame level
+    // You can add specific logic for AlchemyGame completion here
 
     final score = Score(
-      widget.level.number,
-      widget.level.difficulty,
+      0, // Set a dummy level number, as it won't be used for AlchemyGame
+      0, // Set a dummy difficulty, as it won't be used for AlchemyGame
       DateTime.now().difference(_startOfPlay),
     );
 
     final playerProgress = context.read<PlayerProgress>();
-    playerProgress.setLevelReached(widget.level.number);
+    playerProgress.setLevelReached(0); // Set a dummy level number
 
     // Let the player see the game just after winning for a bit.
     await Future<void>.delayed(_preCelebrationDuration);
@@ -145,21 +127,24 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     final gamesServicesController = context.read<GamesServicesController?>();
     if (gamesServicesController != null) {
       // Award achievement.
-      if (widget.level.awardsAchievement) {
-        await gamesServicesController.awardAchievement(
-          android: widget.level.achievementIdAndroid!,
-          iOS: widget.level.achievementIdIOS!,
-        );
-      }
+      // Note: You can customize this part based on your AlchemyGame completion logic.
+      // This is just a placeholder code.
+      await gamesServicesController.awardAchievement(
+        android: 'your_android_achievement_id',
+        iOS: 'your_ios_achievement_id',
+      );
 
       // Send score to leaderboard.
       await gamesServicesController.submitLeaderboardScore(score);
     }
 
-    /// Give the player some time to see the celebration animation.
+    // Give the player some time to see the celebration animation.
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/won', extra: {'score': score});
+    // Directly go to the AlchemyGame screen
+    GoRouter.of(context).go(
+      '/play/alchemy',
+    );
   }
 }

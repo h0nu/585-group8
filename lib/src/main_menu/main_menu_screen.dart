@@ -48,7 +48,6 @@ class MainMenuScreen extends StatelessWidget {
               child: const Text('Play'),
             ),
             _gap,
-
             FilledButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
               child: const Text('Settings'),
