@@ -28,10 +28,14 @@ class Palette {
   Color get redPen => const Color(0xFFd10841);
   Color get inkFullOpacity => const Color(0xff352b42);
   Color get ink => const Color(0xee352b42);
-  Color get backgroundMain => const Color(0xffffffd1);
-  Color get backgroundLevelSelection => const Color(0xffa2dcc7);
+  Color get backgroundMain => Color.fromRGBO(255,232,215,1);
+  Color get backgroundLevelSelection => Color.fromRGBO(255,232,215,1);
   Color get backgroundPlaySession => const Color(0xffffebb5);
   Color get background4 => const Color(0xffffd7ff);
-  Color get backgroundSettings => const Color(0xffbfc8e3);
+  Color get backgroundSettings => Color.fromRGBO(255,232,215,1);
   Color get trueWhite => const Color(0xffffffff);
+  Color get backgroundAlchemy => Color.fromRGBO(255,232,215,1); // Background color for play screen
+  Color get backgroundHints =>  Colors.white;
+  Color get backgroundMenu => Color.fromRGBO(255,232,215,1);
+  Color get backgroundEncyclopedia => Colors.white;
 }
