@@ -31,6 +31,8 @@ import 'src/style/palette.dart';
 import 'src/style/snack_bar.dart';
 import 'src/win_game/win_game_screen.dart';
 import 'src/play_session/Alchemy_play_session.dart';
+import 'src/level_selection/hints.dart';
+import 'src/level_selection/encyclopedia.dart';
 
 Future<void> main() async {
   // Subscribe to log messages.
@@ -114,7 +116,22 @@ class MyApp extends StatelessWidget {
         path: '/play', // Ensure the path starts with "/"
         builder: (context, state) => AlchemyGame(),
       ),
-    ],
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) =>
+            const SettingsScreen(key: Key('settings')),
+      ),
+      GoRoute(
+        path: '/encyclopedia',
+        builder: (context, state) =>
+            const EncyclopediaScreen(key: Key('encyclopedia')),
+      ),
+      GoRoute(
+        path: '/hints',
+        builder: (context, state) =>
+            const HintsScreen(key: Key('hints')),
+      ),
+    ], 
   );
 
   final PlayerProgressPersistence playerProgressPersistence;
