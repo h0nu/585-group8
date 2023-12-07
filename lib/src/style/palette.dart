@@ -34,8 +34,8 @@ class Palette {
   Color get background4 => const Color(0xffffd7ff);
   Color get backgroundSettings => Color.fromRGBO(255,232,215,1);
   Color get trueWhite => const Color(0xffffffff);
-  Color get backgroundAlchemy => Color.fromRGBO(255,232,215,1); // Background color for play screen
-  Color get backgroundHints =>  Colors.white;
-  Color get backgroundMenu => Color.fromRGBO(255,232,215,1);
-  Color get backgroundEncyclopedia => Colors.white;
+  Color get backgroundAlchemy => Color.fromRGBO(255,232,215,1); // Play screen color
+  Color get backgroundHints =>  Colors.white; //Hints page color
+  Color get backgroundMenu => Color.fromRGBO(255,232,215,1); //Menu color
+  Color get backgroundEncyclopedia => Colors.white; //Encyclopedia page color
 }
