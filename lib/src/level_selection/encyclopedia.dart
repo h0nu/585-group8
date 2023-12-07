@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../style/palette.dart';
-import '../style/responsive_screen.dart';
 
 class EncyclopediaScreen extends StatelessWidget {
   const EncyclopediaScreen({Key? key}) : super(key: key);
@@ -13,12 +12,12 @@ class EncyclopediaScreen extends StatelessWidget {
     final palette = context.watch<Palette>();
 
     return Scaffold(
-      backgroundColor: palette.backgroundLevelSelection,
-      body: ResponsiveScreen(
-        squarishMainArea: Column(
-          children: const [
+      backgroundColor: palette.backgroundEncyclopedia,
+      body: SafeArea(
+        child: Column(
+          children: [
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Center(
                 child: Text(
                   'Encyclopedia',
@@ -30,55 +29,64 @@ class EncyclopediaScreen extends StatelessWidget {
               child: Scrollbar(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'Water: Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                           style: TextStyle(fontSize: 18),
                         ),
-                        SizedBox(height: 16), // Add a break/space here
+                        SizedBox(height: 16),
                         Text(
-                          'Fire: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                          'Earth: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                           style: TextStyle(fontSize: 18),
                         ),
-                        SizedBox(height: 16), // Add a break/space here
+                        SizedBox(height: 16),
                         Text(
-                          'Dirt: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                          'Fire: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                           style: TextStyle(fontSize: 18),
                         ),
-                        // Add more "Lorem Ipsum" content as needed
+                        // Add more content as needed
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-        rectangularMenuArea: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () {
-                GoRouter.of(context).go('/play');
-              },
-              child: const Text('Home'),
-            ),
-            TextButton(
-              onPressed: () {
-                GoRouter.of(context).push('/hints');
-              },
-              child: const Text('Hints'),
-            ),
-            TextButton(
-              onPressed: () => GoRouter.of(context).push('/encyclopedia'),
-              child: const Text('Encyclopedia'),
-            ),
-            TextButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
-              child: const Text('Settings'),
+            Container(
+              height: 60,
+              decoration: BoxDecoration(
+                color: palette.backgroundMenu,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        GoRouter.of(context).go('/play');
+                      },
+                      icon: Icon(Icons.home),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        GoRouter.of(context).push('/hints');
+                      },
+                      icon: Icon(Icons.lightbulb),
+                    ),
+                    IconButton(
+                      onPressed: () => GoRouter.of(context).push('/encyclopedia'),
+                      icon: Icon(Icons.menu_book),
+                    ),
+                    IconButton(
+                      onPressed: () => GoRouter.of(context).push('/settings'),
+                      icon: Icon(Icons.settings),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

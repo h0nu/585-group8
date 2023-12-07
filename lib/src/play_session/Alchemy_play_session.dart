@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../style/palette.dart';
 
 class AlchemyGame extends StatefulWidget {
   const AlchemyGame({super.key});
@@ -40,8 +41,11 @@ class _AlchemyGameState extends State<AlchemyGame> {
   }
 @override
   Widget build(BuildContext context) {
+      final palette = context.watch<Palette>();
+
     return Scaffold(
       appBar: null, // Remove the AppBar
+      backgroundColor: palette.backgroundAlchemy, 
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (context) => AlchemyGameState(inventory, combinationSequence),
@@ -51,37 +55,45 @@ class _AlchemyGameState extends State<AlchemyGame> {
                 flex: 4,
                 child: _AlchemyGameContent(),
               ),
-              Container(
-                color: Color.fromRGBO(255,232,215,1), // Color from figma
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjusted to space around icons
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          GoRouter.of(context).go('/play');
-                        },
-                        icon: Icon(Icons.home),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          GoRouter.of(context).push('/hints');
-                        },
-                        icon: Icon(Icons.lightbulb),
-                      ),
-                      IconButton(
-                        onPressed: () => GoRouter.of(context).push('/encyclopedia'),
-                        icon: Icon(Icons.menu_book),
-                      ),
-                      IconButton(
-                        onPressed: () => GoRouter.of(context).push('/settings'),
-                        icon: Icon(Icons.settings),
-                      ),
-                    ],
-                  ),
+              SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+              height: 60,
+              decoration: BoxDecoration(
+                color: palette.backgroundMenu,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        GoRouter.of(context).go('/play');
+                      },
+                      icon: Icon(Icons.home),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        GoRouter.of(context).push('/hints');
+                      },
+                      icon: Icon(Icons.lightbulb),
+                    ),
+                    IconButton(
+                      onPressed: () => GoRouter.of(context).push('/encyclopedia'),
+                      icon: Icon(Icons.menu_book),
+                    ),
+                    IconButton(
+                      onPressed: () => GoRouter.of(context).push('/settings'),
+                      icon: Icon(Icons.settings),
+                    ),
+                  ],
                 ),
               ),
+            ),
+            ),
+          ),
             ],
           ),
         ),
