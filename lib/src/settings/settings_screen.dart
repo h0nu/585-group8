@@ -7,15 +7,17 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../player_progress/player_progress.dart';
+import '../audio/sounds.dart';
+import '../audio/audio_controller.dart';
 import '../style/palette.dart';
-import '../style/responsive_screen.dart';
 import 'custom_name_dialog.dart';
 import 'settings.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  static const _gap = SizedBox(height: 60);
+  static const _gapW = SizedBox(width: 15);
+  static const _gapH = SizedBox(height: 60);
 
   @override
   Widget build(BuildContext context) {
@@ -23,50 +25,52 @@ class SettingsScreen extends StatelessWidget {
     final palette = context.watch<Palette>();
 
     return Scaffold(
-      backgroundColor: palette.backgroundSettings,
-      body: ResponsiveScreen(
-        squarishMainArea: ListView(
-          children: [
-            _gap,
-            const Text(
-              'Settings',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 55,
-                height: 1,
-              ),
+      appBar: AppBar(
+        title: Text('Settings'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: settings.musicOn,
+                  builder: (context, musicOn, child) => _SettingsButton(
+                    title: 'Music',
+                    icon: Icon(musicOn ? Icons.music_note : Icons.music_off),
+                    onPressed: () => settings.toggleMusicOn(),
+                  ),
+                ),
+                SizedBox(height: 16),
+                ValueListenableBuilder<bool>(
+                  valueListenable: settings.soundsOn,
+                  builder: (context, soundsOn, child) => _SettingsButton(
+                    title: 'Sound',
+                    icon: Icon(soundsOn ? Icons.graphic_eq : Icons.volume_off),
+                    onPressed: () => settings.toggleSoundsOn(),
+                  ),
+                ),
+              ],
             ),
-            _gap,
-            const _NameChangeLine(
-              'Name',
-            ),
-            _SettingsLine(
-              'Reset progress',
-              const Icon(Icons.delete),
-              onSelected: () {
-                context.read<PlayerProgress>().reset();
-
-                final messenger = ScaffoldMessenger.of(context);
-                messenger.showSnackBar(
-                  const SnackBar(
-                      content: Text('Player progress has been reset.')),
-                );
+          ),
+          Container(
+            padding: EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
               },
+              child: const Text('Back'),
             ),
-            _gap,
-          ],
-        ),
-        rectangularMenuArea: FilledButton(
-          onPressed: () {
-            GoRouter.of(context).pop();
-          },
-          child: const Text('Back'),
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
 
 class _NameChangeLine extends StatelessWidget {
   final String title;
@@ -77,9 +81,8 @@ class _NameChangeLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
 
-    return InkResponse(
-      highlightShape: BoxShape.rectangle,
-      onTap: () => showCustomNameDialog(context),
+    return ElevatedButton(
+      onPressed: () => showCustomNameDialog(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
@@ -108,39 +111,34 @@ class _NameChangeLine extends StatelessWidget {
   }
 }
 
-class _SettingsLine extends StatelessWidget {
+class _SettingsButton extends StatelessWidget {
   final String title;
-
   final Widget icon;
+  final VoidCallback onPressed;
 
-  final VoidCallback? onSelected;
-
-  const _SettingsLine(this.title, this.icon, {this.onSelected});
+  const _SettingsButton({
+    required this.title,
+    required this.icon,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
-      highlightShape: BoxShape.rectangle,
-      onTap: onSelected,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontFamily: 'Permanent Marker',
-                  fontSize: 30,
-                ),
-              ),
-            ),
-            icon,
-          ],
-        ),
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.all(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          icon,
+          Text(
+            title,
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(width: 32), // Add space between icon and text
+        ],
       ),
     );
   }

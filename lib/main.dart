@@ -18,6 +18,7 @@ import 'src/games_services/score.dart';
 import 'src/level_selection/level_selection_screen.dart';
 import 'src/level_selection/levels.dart';
 import 'src/main_menu/main_menu_screen.dart';
+import 'src/audio/audio_controller.dart';
 import 'src/play_session/play_session_screen.dart';
 import 'src/player_progress/persistence/local_storage_player_progress_persistence.dart';
 import 'src/player_progress/persistence/player_progress_persistence.dart';
@@ -163,14 +164,29 @@ class MyApp extends StatelessWidget {
           Provider<GamesServicesController?>.value(
             value: gamesServicesController,
           ),
-          Provider(
-            create: (context) => Palette(),
-          ),
-          // ChangeNotifierProvider for SettingsController with explicit type argument
-          ChangeNotifierProvider<SettingsController>(
+          Provider<SettingsController>(
+            lazy: false,
             create: (context) => SettingsController(
               persistence: settingsPersistence,
             )..loadStateFromPersistence(),
+          ),
+          ProxyProvider2<SettingsController, ValueNotifier<AppLifecycleState>,
+              AudioController>(
+            // Ensures that the AudioController is created on startup,
+            // and not "only when it's needed", as is default behavior.
+            // This way, music starts immediately.
+            lazy: false,
+            create: (context) => AudioController()..initialize(),
+            update: (context, settings, lifecycleNotifier, audio) {
+              if (audio == null) throw ArgumentError.notNull();
+              audio.attachSettings(settings);
+              audio.attachLifecycleNotifier(lifecycleNotifier);
+              return audio;
+            },
+            dispose: (context, audio) => audio.dispose(),
+          ),
+          Provider(
+            create: (context) => Palette(),
           ),
         ],
         child: Builder(builder: (context) {
