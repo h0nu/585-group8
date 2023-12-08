@@ -1,7 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -12,13 +8,27 @@ import '../style/palette.dart';
 import '../style/responsive_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
-  const MainMenuScreen({super.key});
+  const MainMenuScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
     final gamesServicesController = context.watch<GamesServicesController?>();
     final settingsController = context.watch<SettingsController>();
+
+    // Define a button style for the 'Play' button
+    final ButtonStyle playButtonStyle = ElevatedButton.styleFrom(
+      backgroundColor: palette.backgroundPlayButton, // Change the background color
+      foregroundColor: Colors.white, // Change the text color
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32), // Adjust the padding
+    );
+
+    // Define a button style for the 'Settings' button
+    final ButtonStyle settingsButtonStyle = ElevatedButton.styleFrom(
+      backgroundColor: Color.fromARGB(114, 0, 0, 0), // Change the background color for Settings
+      foregroundColor: Colors.white, // Change the text color
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32), // Adjust the padding
+    );
 
     return Scaffold(
       backgroundColor: palette.backgroundMain,
@@ -41,15 +51,19 @@ class MainMenuScreen extends StatelessWidget {
         rectangularMenuArea: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // Apply the 'Play' button style
             ElevatedButton(
               onPressed: () {
                 GoRouter.of(context).go('/play');
               },
+              style: playButtonStyle,
               child: const Text('Play'),
             ),
             _gap,
+            // Apply the 'Settings' button style
             FilledButton(
               onPressed: () => GoRouter.of(context).push('/settings'),
+              style: settingsButtonStyle,
               child: const Text('Settings'),
             ),
           ],
@@ -58,28 +72,27 @@ class MainMenuScreen extends StatelessWidget {
     );
   }
 
-  /// Prevents the game from showing game-services-related menu items
-  /// until we're sure the player is signed in.
-  ///
-  /// This normally happens immediately after game start, so players will not
-  /// see any flash. The exception is folks who decline to use Game Center
-  /// or Google Play Game Services, or who haven't yet set it up.
-  Widget _hideUntilReady({required Widget child, required Future<bool> ready}) {
-    return FutureBuilder<bool>(
-      future: ready,
-      builder: (context, snapshot) {
-        // Use Visibility here so that we have the space for the buttons
-        // ready.
-        return Visibility(
-          visible: snapshot.data ?? false,
-          maintainState: true,
-          maintainSize: true,
-          maintainAnimation: true,
-          child: child,
-        );
-      },
+  static const _gap = SizedBox(height: 10);
+}
+
+// Custom widget for a filled button
+class FilledButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Widget child;
+  final ButtonStyle? style;
+
+  const FilledButton({
+    required this.onPressed,
+    required this.child,
+    this.style,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: style,
+      child: child,
     );
   }
-
-  static const _gap = SizedBox(height: 10);
 }
