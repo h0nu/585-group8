@@ -15,19 +15,24 @@ class HintsScreen extends StatelessWidget {
     final audioController = context.watch<AudioController>();
 
     return Scaffold(
-      backgroundColor: palette.backgroundHints,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                child: Text(
-                  'Hints',
-                  style: TextStyle(fontFamily: 'Permanent Marker', fontSize: 30),
-                ),
+      appBar: null,
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            color: palette.backgroundSettings,
+            padding: const EdgeInsets.fromLTRB(16, 40, 16, 16), // Adjust top padding
+            child: Text(
+              'Hints',
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.black,
+                fontFamily: 'Permanent Marker',
               ),
             ),
+          ),
             Expanded(
               child: Scrollbar(
                 child: SingleChildScrollView(
@@ -57,7 +62,9 @@ class HintsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
+            Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: Container(
               height: 60,
               decoration: BoxDecoration(
                 color: palette.backgroundMenu,
@@ -99,9 +106,9 @@ class HintsScreen extends StatelessWidget {
                 ),
               ),
             ),
+          ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

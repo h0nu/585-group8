@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../player_progress/player_progress.dart';
 import '../audio/sounds.dart';
 import '../audio/audio_controller.dart';
 import '../style/palette.dart';
@@ -14,7 +13,7 @@ import 'custom_name_dialog.dart';
 import 'settings.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({Key? key});
 
   static const _gapW = SizedBox(width: 15);
   static const _gapH = SizedBox(height: 60);
@@ -23,46 +22,97 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
     final palette = context.watch<Palette>();
+    final audioController = context.watch<AudioController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
+      appBar: null,
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: settings.musicOn,
-                  builder: (context, musicOn, child) => _SettingsButton(
-                    title: 'Music',
-                    icon: Icon(musicOn ? Icons.music_note : Icons.music_off),
-                    onPressed: () => settings.toggleMusicOn(),
-                  ),
-                ),
-                SizedBox(height: 16),
-                ValueListenableBuilder<bool>(
-                  valueListenable: settings.soundsOn,
-                  builder: (context, soundsOn, child) => _SettingsButton(
-                    title: 'Sound',
-                    icon: Icon(soundsOn ? Icons.graphic_eq : Icons.volume_off),
-                    onPressed: () => settings.toggleSoundsOn(),
-                  ),
-                ),
-              ],
+          Container(
+            alignment: Alignment.center,
+            color: palette.backgroundSettings,
+            padding: const EdgeInsets.fromLTRB(16, 40, 16, 16), // Adjust top padding
+            child: Text(
+              'Settings',
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.black,
+                fontFamily: 'Permanent Marker',
+              ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Back'),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: settings.musicOn,
+                    builder: (context, musicOn, child) => _SettingsButton(
+                      title: 'Music',
+                      icon: Icon(musicOn ? Icons.music_note : Icons.music_off),
+                      onPressed: () => settings.toggleMusicOn(),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: settings.soundsOn,
+                    builder: (context, soundsOn, child) => _SettingsButton(
+                      title: 'Sound',
+                      icon: Icon(soundsOn ? Icons.graphic_eq : Icons.volume_off),
+                      onPressed: () => settings.toggleSoundsOn(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: Container(
+              height: 60,
+              decoration: BoxDecoration(
+                color: palette.backgroundMenu,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
+                        GoRouter.of(context).go('/play');
+                      },
+                      icon: Icon(Icons.home),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
+                        GoRouter.of(context).push('/hints');
+                      },
+                      icon: Icon(Icons.lightbulb),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
+                        GoRouter.of(context).push('/encyclopedia');
+                      },
+                      icon: Icon(Icons.menu_book),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        audioController.playSfx(SfxType.buttonTap);
+                        GoRouter.of(context).push('/settings');
+                      },
+                      icon: Icon(Icons.settings),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -70,7 +120,6 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
-
 
 class _NameChangeLine extends StatelessWidget {
   final String title;
@@ -124,10 +173,16 @@ class _SettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(16),
+        backgroundColor: palette.backgroundMenu, // Change the background color
+        foregroundColor: Colors.black, // Change the text color
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0), // Adjust the button border radius
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
