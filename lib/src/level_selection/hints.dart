@@ -47,7 +47,7 @@ class HintsScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          'Hint 2:: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                          'Hint 2: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                           style: TextStyle(fontSize: 18),
                         ),
                         SizedBox(height: 16),
