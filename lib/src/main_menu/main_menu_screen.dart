@@ -8,6 +8,7 @@ import '../style/palette.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({Key? key});
+  static const _gap = SizedBox(height: 10);
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,14 @@ class MainMenuScreen extends StatelessWidget {
             },
             style: playButtonStyle,
             child: const Text('PLAY'),
+          ),
+          _gap,
+          ElevatedButton(
+            onPressed: () {
+              GoRouter.of(context).go('/settings');
+            },
+            style: playButtonStyle,
+            child: const Text('SETTINGS'),
           ),
         ],
       ),
