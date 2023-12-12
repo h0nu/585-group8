@@ -5,40 +5,98 @@ import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
 
 import '../style/palette.dart';
+import 'element_info.dart';
 
-class EncyclopediaScreen extends StatelessWidget {
+class EncyclopediaScreen extends StatefulWidget {
   const EncyclopediaScreen({Key? key}) : super(key: key);
 
+  @override
+  _EncyclopediaScreenState createState() => _EncyclopediaScreenState();
+}
+
+class _EncyclopediaScreenState extends State<EncyclopediaScreen> {
+  String searchQuery = '';
+  List<ElementInfo> filteredElements = elementData;
+
   // Helper method to create a card for each element
-  Widget _buildElementCard(String title, String description, String category, String combination) {
-    final Color cardBackgroundColor = Color.fromRGBO(255, 232, 215, 1.0); // Adjust the alpha value as needed
+  Widget _buildElementCard(ElementInfo elementInfo, BuildContext context) {
+    final palette = context.watch<Palette>();
     return Card(
-      elevation: 1,
+      elevation: 0,
       margin: const EdgeInsets.only(bottom: 16),
-      color: cardBackgroundColor,
+      color: palette.cardBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              elementInfo.title,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:Colors.white),
             ),
             SizedBox(height: 8),
-            Text(
-              description,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Categories: $category',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Combinations: $combination',
-              style: TextStyle(fontSize: 16),
+            Material(
+              elevation: 4, // Adjust the elevation value as needed
+              borderRadius: BorderRadius.circular(8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Description:',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              elementInfo.description,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Category:',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              elementInfo.category,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Combinations:',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              elementInfo.combination,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      // Add an Image widget with the specified imagePath
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 7), // Adjust vertical padding as needed
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            elementInfo.imagePath,
+                            width: 100, // Adjust the width as needed
+                            height: 100, // Adjust the height as needed
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -70,6 +128,29 @@ class EncyclopediaScreen extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                  if (searchQuery.isEmpty) {
+                    // If search query is empty, display all elements
+                    filteredElements = List.from(elementData);
+                  } else {
+                    // If search query is not empty, filter elements based on the query
+                    filteredElements = elementData
+                        .where((element) => element.title.toLowerCase().contains(searchQuery.toLowerCase()))
+                        .toList();
+                  }
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Search',
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
           Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
@@ -77,27 +158,7 @@ class EncyclopediaScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildElementCard(
-                        'Water',
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'Liquid, Transparent',
-                        'Water + Fire = Steam',
-                      ),
-                      _buildElementCard(
-                        'Earth',
-                        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        'Solid, Brown',
-                        'Earth + Water = Mud',
-                      ),
-                      _buildElementCard(
-                        'Fire',
-                        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                        'Hot, Red',
-                        'Fire + Air = Smoke',
-                      ),
-                      // Add more cards as needed
-                    ],
+                    children: filteredElements.map((elementInfo) => _buildElementCard(elementInfo, context)).toList(),
                   ),
                 ),
               ),
@@ -152,4 +213,5 @@ class EncyclopediaScreen extends StatelessWidget {
       ),
     );
   }
+
 }
