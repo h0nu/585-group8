@@ -91,10 +91,18 @@ Future<void> main() async {
   // }
 
   runApp(
-    MyApp(
-      settingsPersistence: LocalStorageSettingsPersistence(),
-      playerProgressPersistence: LocalStoragePlayerProgressPersistence(),
-      gamesServicesController: gamesServicesController,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => HintUnlockProvider(),
+        ),
+        // ... other providers ...
+      ],
+      child: MyApp(
+        settingsPersistence: LocalStorageSettingsPersistence(),
+        playerProgressPersistence: LocalStoragePlayerProgressPersistence(),
+        gamesServicesController: gamesServicesController,
+      ),
     ),
   );
 }
