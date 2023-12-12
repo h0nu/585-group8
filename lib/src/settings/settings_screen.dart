@@ -178,8 +178,8 @@ class _SettingsButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(16),
-        backgroundColor: palette.backgroundMenu, // Change the background color
-        foregroundColor: Colors.black, // Change the text color
+        backgroundColor: palette.backgroundPlayButton, // Change the background color
+        foregroundColor: Colors.white, // Change the text color
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0), // Adjust the button border radius
         ),
