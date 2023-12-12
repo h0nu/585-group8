@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../style/palette.dart';
 
 class AlchemyGame extends StatefulWidget {
   @override
@@ -12,23 +13,52 @@ class _AlchemyGameState extends State<AlchemyGame> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Little Alchemy"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            if (Navigator.of(context).canPop()) {
-              GoRouter.of(context).pop();
-            } else {
-              GoRouter.of(context).go('/');
-            }
-          },
-        ),
-      ),
       body: ChangeNotifierProvider(
         create: (context) => AlchemyGameState(),
         child: _AlchemyGameContent(),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 24.0),
+        child: Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: palette.backgroundAlchemy, // Change the color as needed
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    GoRouter.of(context).go('/play');
+                  },
+                  icon: Icon(Icons.home),
+                ),
+                IconButton(
+                  onPressed: () {
+                    GoRouter.of(context).push('/hints');
+                  },
+                  icon: Icon(Icons.lightbulb),
+                ),
+                IconButton(
+                  onPressed: () {
+                    GoRouter.of(context).push('/encyclopedia');
+                  },
+                  icon: Icon(Icons.menu_book),
+                ),
+                IconButton(
+                  onPressed: () {
+                    GoRouter.of(context).push('/settings');
+                  },
+                  icon: Icon(Icons.settings),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -49,7 +79,8 @@ class _AlchemyGameContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final gameState = Provider.of<AlchemyGameState>(context);
 
-    return Row(
+    return SafeArea(
+    child: Row(
       children: <Widget>[
         Expanded(
           flex: 4,
@@ -58,8 +89,8 @@ class _AlchemyGameContent extends StatelessWidget {
               DragTarget<String>(
                 builder: (context, candidateData, rejectedData) {
                   return Container(
-                    color: Color.fromARGB(255, 3, 59, 89),
-                    margin: EdgeInsets.all(8),
+                    color: Colors.white,
+                    // margin: EdgeInsets.all(8),
                     child: Stack(
                       children: [
                         // Display elements on the target area
@@ -227,6 +258,7 @@ class _AlchemyGameContent extends StatelessWidget {
           ),
         ),
       ],
+    ),
     );
   }
 }
@@ -235,22 +267,21 @@ class ClearScreenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<AlchemyGameState>(context, listen: false);
+    final palette = context.watch<Palette>();
 
     return Positioned(
       bottom: 25,
-      left: 25, // Adjust the left margin as needed
+      left: 25, 
       child: GestureDetector(
         onTap: () {
-          gameState
-              .clearCombinedElements(); // Call the method to clear combined elements
+          gameState.clearCombinedElements();
         },
         child: Container(
-          width: 80, // Increased width for better visibility
-          height: 40, // Increased height for better visibility
+          width: 60,
+          height: 60, 
           decoration: BoxDecoration(
-            color: Color.fromARGB(
-                255, 251, 251, 251), // Change the background color as needed
-            borderRadius: BorderRadius.circular(10), // Add rounded corners
+            color: palette.backgroundPlayButton,
+            shape: BoxShape.circle, 
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -259,19 +290,21 @@ class ClearScreenButton extends StatelessWidget {
               ),
             ],
           ),
-          alignment: Alignment.center,
-          child: Text(
-            'Clear',
-            style: TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
+          child: IconButton(
+            icon: Icon(
+              Icons.cleaning_services, 
+              color: Colors.white,
             ),
+            onPressed: () {
+              gameState.clearCombinedElements();
+            },
           ),
         ),
       ),
     );
   }
 }
+
 
 class AlchemyGameState extends ChangeNotifier {
   List<String> inventory = [];
