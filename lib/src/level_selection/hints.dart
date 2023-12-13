@@ -57,21 +57,21 @@ class HintsScreen extends StatelessWidget {
                     children: [
                       _HintCard(
                         title: '#1',
-                        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        content: 'Merge liquid calmness with flickering heat, and witness the birth of an elusive, ethereal essence.!',
                         isUnlocked: hintUnlockProvider.isHintUnlocked('Hint 1'),
                         unlockCallback: () => hintUnlockProvider.unlockHint('Hint 1'),
                       ),
                       SizedBox(height: 16),
                       _HintCard(
                         title: '#2',
-                        content: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                        content: 'Bring together the light breeze and grounded essence to uncover the delicate veil born from their silent collaboration.',
                         isUnlocked: hintUnlockProvider.isHintUnlocked('Hint 2'),
                         unlockCallback: () => hintUnlockProvider.unlockHint('Hint 2'),
                       ),
                       SizedBox(height: 16),
                       _HintCard(
                         title: '#3',
-                        content: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                        content: 'Combine the grounded strength with flowing liquid, and discover the tactile marvel born from their quiet alliance.',
                         isUnlocked: hintUnlockProvider.isHintUnlocked('Hint 3'),
                         unlockCallback: () => hintUnlockProvider.unlockHint('Hint 3'),
                       ),

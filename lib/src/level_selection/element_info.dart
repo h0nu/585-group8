@@ -26,14 +26,14 @@ final List<ElementInfo> elementData = [
   ),
   ElementInfo(
     title: 'Earth',
-    description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    description: 'The Earth provides a foundation for support and a medium for various natural processes.',
     category: 'Solid, Brown',
     combination: 'Earth + Water = Mud',
     imagePath: 'assets/images/earth.png',
   ),
   ElementInfo(
     title: 'Fire',
-    description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    description: 'Fire is like a super-fast dance party for tiny particles that make heat and light when they get together.',
     category: 'Hot, Red',
     combination: 'Fire + Air = Smoke',
     imagePath: 'assets/images/fire.png',
