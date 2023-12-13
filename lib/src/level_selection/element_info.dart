@@ -19,7 +19,7 @@ class ElementInfo {
 final List<ElementInfo> elementData = [
   ElementInfo(
     title: 'Water',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    description: 'Water is a vital, clear, and adaptable liquid essential for life.',
     category: 'Liquid, Transparent',
     combination: 'Water + Fire = Steam',
     imagePath: 'assets/images/water.png',
