@@ -57,7 +57,7 @@ class HintsScreen extends StatelessWidget {
                     children: [
                       _HintCard(
                         title: '#1',
-                        content: 'Merge liquid calmness with flickering heat, and witness the birth of an elusive, ethereal essence.!',
+                        content: 'Merge liquid calmness with flickering heat, and witness the birth of an elusive, ethereal essence.',
                         isUnlocked: hintUnlockProvider.isHintUnlocked('Hint 1'),
                         unlockCallback: () => hintUnlockProvider.unlockHint('Hint 1'),
                       ),
