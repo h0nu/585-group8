@@ -76,6 +76,13 @@ class SettingsScreen extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 color: palette.backgroundMenu,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
