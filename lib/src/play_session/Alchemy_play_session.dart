@@ -25,6 +25,13 @@ class _AlchemyGameState extends State<AlchemyGame> {
           height: 60,
           decoration: BoxDecoration(
             color: palette.backgroundAlchemy, // Change the color as needed
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

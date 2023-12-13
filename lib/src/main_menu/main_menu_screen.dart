@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../games_services/games_services.dart';
-import '../settings/settings.dart';
 import '../style/palette.dart';
 
 class MainMenuScreen extends StatelessWidget {
@@ -13,8 +11,6 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final gamesServicesController = context.watch<GamesServicesController?>();
-    final settingsController = context.watch<SettingsController>();
 
     // Define a button style for the 'Play' button
     final ButtonStyle playButtonStyle = ElevatedButton.styleFrom(

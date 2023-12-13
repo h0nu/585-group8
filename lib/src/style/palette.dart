@@ -39,4 +39,5 @@ class Palette {
   Color get backgroundMenu => Color.fromRGBO(255,232,215,1); //Menu color
   Color get backgroundEncyclopedia => Colors.white; //Encyclopedia page color
   Color get backgroundPlayButton => Color.fromRGBO(7,204,222,.87);
+  Color get cardBackgroundColor => Color.fromRGBO(7,204,222,.87);
 }
