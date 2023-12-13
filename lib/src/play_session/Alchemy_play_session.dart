@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../style/palette.dart';
+import '../audio/audio_controller.dart';
+import '../audio/sounds.dart';
 
 class AlchemyGame extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class _AlchemyGameState extends State<AlchemyGame> {
 
   @override
   Widget build(BuildContext context) {
+    final audioController = context.watch<AudioController>();
     final palette = context.watch<Palette>();
     return Scaffold(
       body: ChangeNotifierProvider(
@@ -40,24 +43,28 @@ class _AlchemyGameState extends State<AlchemyGame> {
               children: [
                 IconButton(
                   onPressed: () {
+                    audioController.playSfx(SfxType.buttonTap);
                     GoRouter.of(context).go('/play');
                   },
                   icon: Icon(Icons.home),
                 ),
                 IconButton(
                   onPressed: () {
+                    audioController.playSfx(SfxType.buttonTap);
                     GoRouter.of(context).push('/hints');
                   },
                   icon: Icon(Icons.lightbulb),
                 ),
                 IconButton(
                   onPressed: () {
+                    audioController.playSfx(SfxType.buttonTap);
                     GoRouter.of(context).push('/encyclopedia');
                   },
                   icon: Icon(Icons.menu_book),
                 ),
                 IconButton(
                   onPressed: () {
+                    audioController.playSfx(SfxType.buttonTap);
                     GoRouter.of(context).push('/settings');
                   },
                   icon: Icon(Icons.settings),
