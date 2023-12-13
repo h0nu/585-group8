@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../audio/sounds.dart';
 import '../audio/audio_controller.dart';
 import '../style/palette.dart';
-import 'custom_name_dialog.dart';
 import 'settings.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -123,45 +122,6 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _NameChangeLine extends StatelessWidget {
-  final String title;
-
-  const _NameChangeLine(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    final settings = context.watch<SettingsController>();
-
-    return ElevatedButton(
-      onPressed: () => showCustomNameDialog(context),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(title,
-                style: const TextStyle(
-                  fontFamily: 'Permanent Marker',
-                  fontSize: 30,
-                )),
-            const Spacer(),
-            ValueListenableBuilder(
-              valueListenable: settings.playerName,
-              builder: (context, name, child) => Text(
-                '‘$name’',
-                style: const TextStyle(
-                  fontFamily: 'Permanent Marker',
-                  fontSize: 30,
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
